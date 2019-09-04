@@ -1,4 +1,5 @@
 #include "tetris.h" 
+#include "display.h" 
 /// jogo interativo tetris orientado usuario em c para uso no console terminal de comandos
 /// para executar start .\programa.exe
 /// Autor: marlon diego salin   
@@ -15,9 +16,11 @@ int main(){ /// parte principal do programa responsavel por iniciar e chamar as 
     posJ = COLUMNS/2;
     //inicializando matriz
     init(matrix);
-                    
+    /// apagar o cursor da tela
+           ShowConsoleCursor(0);   
+           system("cls");      
     while(1){
-        system("cls");
+        gotoxy(0,0);
 
         matrix[posI][posJ] = '@';
 
