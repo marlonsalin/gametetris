@@ -12,7 +12,7 @@ int main(){ /// parte principal do programa responsavel por iniciar e chamar as 
     int posI, posJ;
 
     //posicao inicial do personagem
-    posI = ROWS/2;
+    posI = 1;
     posJ = COLUMNS/2;
     //inicializando matriz
     init(matrix);
@@ -28,7 +28,7 @@ int main(){ /// parte principal do programa responsavel por iniciar e chamar as 
 
         matrix[posI][posJ] = ' ';
         
-        if(posJ < COLUMNS) posJ++;
+        if(posJ < COLUMNS) posI++;
     }
 
     system("pause");

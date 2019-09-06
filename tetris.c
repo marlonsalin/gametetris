@@ -9,7 +9,15 @@ void init(char matrix[ROWS][COLUMNS]){/// inicializa a matriz principal com "esp
 
     for(i=0; i<ROWS; i++){
         for(j=0; j<COLUMNS; j++){
-            matrix[i][j] = ' ';
+            
+			if (i == 0 || i == 24 || j == 0 || j == 59){ 
+			
+			matrix[i][j] = '*';
+			
+			}else 
+			matrix[i][j] = ' ';
+    		
+			
         }
     }
 }
