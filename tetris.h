@@ -5,59 +5,64 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h> //biblioteca para capturar teclas  
+#include <conio.h>
 
-// configuração das dimensões da matriz principal do jogo 
-#define COLUMNS 60
-#define ROWS 25
+//Configuração das dimensões da matriz principal do jogo
+#define COLUMNS 30
+#define ROWS 60
 
-/// configuração de teclas
+//Configuração de teclas
 #define ESC 27
 #define ARROWS 224
 #define LEFT 75
 #define RIGHT 77
-#define TECLA_A 97
-#define TECLA_D 100
-#define TECLA_AA 65
-#define TECLA_DD 68
+#define TECLA_a 97
+#define TECLA_d 100
+#define TECLA_A 65
+#define TECLA_D 68
 #define TECLA_ESPACO 32
-///criando as orientações de peças 
+
+//Criando as orientações para as peças
 #define ORIENTACAO_UP 1
 #define ORIENTACAO_LEFT 2
 #define ORIENTACAO_DOWN 3
 #define ORIENTACAO_RIGHT 4
-
-///criando os tipos de peças 
+//Criando os tipos de peças
 #define TIPO_L 1
-#define TIPO_L_R 2  // L reverso
+#define TIPO_L_R 2 // L reverso
 #define TIPO_T 3
 #define TIPO_Z 4
-#define TIPO_Z_R 5 // 2 reverso
-#define TIPO_O 6   // quadrado
-#define TIPO_I 7 
+#define TIPO_Z_R 5 // Z reverso
+#define TIPO_O 6   // Quadrado
+#define TIPO_I 7
 
-/// configuração de layout 
+//Configurações de layout
 #define PIXEL 219
-#define EMPTY 32 
+#define EMPTY 32
 
-
-
-// estrutura padrão compnentes
+//Estrutura padrão de componentes
 typedef struct{
-    int i; //posição na linha da matriz 
-    int j; // posição nas colunas da matriz
-    int orientacao; // orientação da peça
-    int tipo; // os tipo da peças 
-    int width; // largura da peça 
-    int height; // altura da peça 
+    int i;  //posicao nas linhas da matriz
+    int j; //posicao nas colunas da matriz
+    int orientacao; //orientacao da peça
+    int tipo; //o tipo de peça (7 possíveis)
+    int width; //largura da peça
+    int height; //altura da peça
 }Bloco;
 
-
-/// inicializa a matriz principal com "espaços vazios"
+/*
+    Inicializa a matriz principal com 'espaços vazios'
+*/
 void init(char matrix[ROWS][COLUMNS]);
 
-///mostra o conteudo da matriz principal na tela do computador 
+/*
+    Mostra o conteúdo da matriz principal na tela 
+    do computador.
+*/
 void printMatrix(char matrix[ROWS][COLUMNS]);
 
-/// desenhar uma barra usando simbolo do caracter ascii passado por parâmetro
-void drawBar( char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
+/*
+    Desenhar uma barra usando o simbolo do caracter ASCII
+    passado por parâmetro.
+*/
+void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
