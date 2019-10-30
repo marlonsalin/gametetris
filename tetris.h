@@ -66,3 +66,12 @@ void printMatrix(char matrix[ROWS][COLUMNS]);
     passado por parâmetro.
 */
 void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
+
+void initBar(Bloco *barra);
+
+
+void rotacao(Bloco *barra);/// função que rotaciona peça 
+
+
+/// verifica colisao do blocos 
+int collisao(char matrix[ROWS][COLUMNS], Bloco barra);

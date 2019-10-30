@@ -6,7 +6,7 @@
 
 #include "tetris.h"
 #include "display.h"
-#define DEBUG 1
+
 
 /*
     Parte principal do programa, responsável por iniciar e 
@@ -17,13 +17,7 @@ int main(){
     Bloco tijolo;
     int keypressed=0;
 
-    //posicao inicial do personagem
-    tijolo.i = 0;
-    tijolo.j = COLUMNS/2;
-    tijolo.tipo = TIPO_I;
-    tijolo.orientacao = ORIENTACAO_LEFT;
-    tijolo.width = 1;
-    tijolo.height = 5;
+    
 
     //inicializando matriz
     init(matrix);
@@ -31,6 +25,9 @@ int main(){
     //apagar o cursor da tela
     ShowConsoleCursor(0);
     system("cls");
+
+    //posicao inicial do personagem
+    initBar(&tijolo);
 
     //animação do jogo
     while(keypressed != ESC){        
@@ -47,21 +44,27 @@ int main(){
         //mostro a matriz na tela
         printMatrix(matrix);
 
-        //faça posição anterior do @ ser apagada
-        drawBar(matrix, tijolo, EMPTY);
-
+        
+        
+        if(!collisao(matrix, tijolo)){
+            drawBar(matrix, tijolo, EMPTY);//faça posição anterior do @ ser apagada
 
         //faço a posição da @ ir para a direita
-        if(tijolo.i < (ROWS-1)) tijolo.i++;
+            if(tijolo.i < (ROWS-1)) tijolo.i++;
+        }
+       else{
+           initBar(&tijolo);
+       }
 
+        
         //lendo teclas
         keypressed = 0;         
         if(kbhit()) keypressed = getch();            
         if(keypressed==ARROWS) keypressed = getch();
 
         switch(keypressed){
-            case (int)'a':
-            case (int)'A':
+            case TECLA_a:
+            case TECLA_A:
             case LEFT: 
                 if((tijolo.j - (tijolo.width/2)) > 0) tijolo.j--; //vai para esquerda
             break; 
@@ -69,23 +72,10 @@ int main(){
             case TECLA_D:
             case RIGHT: 
                 if((tijolo.j + (tijolo.width/2)) < (COLUMNS-1)) tijolo.j++; //vai para a direita 
-            break; 
+            break;  
             case TECLA_ESPACO:
-                if(tijolo.orientacao==ORIENTACAO_RIGHT)
-                    tijolo.orientacao = ORIENTACAO_UP;
-                else
-                    tijolo.orientacao++;
-
-                //inverte as dimensões do tijolo
-                int aux = tijolo.width;
-                tijolo.width = tijolo.height;
-                tijolo.height = aux;
-
-                //resolvendo bug dos cantos
-                if(tijolo.j < (tijolo.width/2))
-                    tijolo.j = tijolo.width/2;
-                else if(tijolo.j > COLUMNS - (tijolo.width/2) - 1)
-                    tijolo.j = COLUMNS - (tijolo.width/2) - 1;
+               rotacao(&tijolo);
+            break;
         }
 
     }
