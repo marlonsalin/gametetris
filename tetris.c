@@ -84,33 +84,31 @@ void initBar(Bloco *barra){
 
 }
 
-void rotacao(Bloco *barra){
-  if(barra->orientacao==ORIENTACAO_RIGHT)
-                    barra->orientacao = ORIENTACAO_UP;
-                else
-                    barra->orientacao++;
+void rotacao(Bloco *bloco){
+   if(bloco->orientacao==ORIENTACAO_RIGHT)
+        bloco->orientacao = ORIENTACAO_UP;
+    else
+        bloco->orientacao++;
 
-                //inverte as dimensões do tijolo
-                int aux = barra->width;
-                barra->width = barra->height;
-                barra->height = aux;
+    //inverte as dimensões do tijolo
+    int aux = bloco->width;
+    bloco->width = bloco->height;
+    bloco->height = aux;
 
-                //resolvendo bug dos cantos
-                if(barra->j < (barra->width/2))
-                    barra->j = barra->width/2;
-                else if(barra->j > COLUMNS - (barra->width/2) - 1)
-                   barra->j = COLUMNS - (barra->width/2) - 1;
+    //resolvendo bug dos cantos
+    if(bloco->j < (bloco->width/2))
+        bloco->j = bloco->width/2;
+    else if(bloco->j > COLUMNS - (bloco->width/2) - 2)
+        bloco->j = COLUMNS - (bloco->width/2) - 2;
 
 }
 
 int collisao(char matrix[ROWS][COLUMNS], Bloco barra){
- int retorno = 1;
-    if(collisao (matrix, barra))
-    drawBar(matrix, barra, EMPTY);
- /// colisao com a base 
- if(!(barra.i + barra.height / 2) >= (ROWS - 1) )
- retorno = 0;
+int retorno = 0;
 
- return retorno;
+    //colisão com a base
+    if((barra.i + barra.height/2) >= (ROWS-1))
+        retorno = 1;
 
+    return retorno;
 }
