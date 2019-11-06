@@ -8,26 +8,20 @@
 #include "display.h"
 
 
-/*
-    Parte principal do programa, responsável por iniciar e 
-    chamar as funções auxiliares.
-*/
 int main(){
     char matrix[ROWS][COLUMNS];
     Bloco tijolo;
     int keypressed=0;
-
     
-
-    //inicializando matriz
-    init(matrix);
-
     //apagar o cursor da tela
     ShowConsoleCursor(0);
     system("cls");
 
     //posicao inicial do personagem
     initBar(&tijolo);
+
+    //inicializando matriz
+    init(matrix);
 
     //animação do jogo
     while(keypressed != ESC){        
@@ -44,37 +38,43 @@ int main(){
         //mostro a matriz na tela
         printMatrix(matrix);
 
-        
-        
-        if(!collisao(matrix, tijolo)){
-            drawBar(matrix, tijolo, EMPTY);//faça posição anterior do @ ser apagada
-
-        //faço a posição da @ ir para a direita
+        //faça posição anterior do @ ser apagada
+        if(!collisionDetect(matrix, tijolo)){
+            drawBar(matrix, tijolo, EMPTY);
+            
+            //faço a posição da @ ir para a direita
             if(tijolo.i < (ROWS-1)) tijolo.i++;
-        }
-       else{
-           initBar(&tijolo);
-       }
 
-        
+        }else{
+            initBar(&tijolo);
+        }
+
+
+
         //lendo teclas
         keypressed = 0;         
         if(kbhit()) keypressed = getch();            
         if(keypressed==ARROWS) keypressed = getch();
 
         switch(keypressed){
-            case TECLA_a:
-            case TECLA_A:
+            case (int)'a':
+            case (int)'A':
             case LEFT: 
+               
                 if((tijolo.j - (tijolo.width/2)) > 0) tijolo.j--; //vai para esquerda
+                 if(matrix[tijolo.i][tijolo.j - (tijolo.width/2 )- 1] == EMPTY) 
+                 tijolo.j--;
             break; 
             case TECLA_d:
             case TECLA_D:
             case RIGHT: 
-                if((tijolo.j + (tijolo.width/2)) < (COLUMNS-1)) tijolo.j++; //vai para a direita 
-            break;  
+                if((tijolo.j - (tijolo.width/2)) > 0) tijolo.j--; //vai para esquerda
+                 if(matrix[tijolo.i][tijolo.j - (tijolo.width/2 )- 1] == EMPTY) 
+                 tijolo.j++;
+
+            break; 
             case TECLA_ESPACO:
-               rotacao(&tijolo);
+                rotate(&tijolo);
             break;
         }
 
@@ -84,5 +84,3 @@ int main(){
 
     return 0;
 }
-
-

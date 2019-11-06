@@ -36,6 +36,7 @@ void printMatrix(char matrix[ROWS][COLUMNS]){
         }
         printf("*\n");
     }
+
     printf("\t\t\t\t\t");
     //Linha de baixo
     for(j=0; j<COLUMNS+2; j++){
@@ -45,6 +46,10 @@ void printMatrix(char matrix[ROWS][COLUMNS]){
 
 }
 
+/*
+    Desenhar uma barra usando o simbolo do caracter ASCII
+    passado por parâmetro.
+*/
 void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
 
         switch(barra.orientacao){
@@ -68,24 +73,28 @@ void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
 
 }
 
+/*
+    Inicializar a peça do tipo barra
+*/
 void initBar(Bloco *barra){
-//posicao inicial do personagem
     barra->i = 0;
     barra->j = COLUMNS/2;
     barra->tipo = TIPO_I;
     barra->orientacao = ORIENTACAO_LEFT;
-    barra->width = 1;
-    barra->height = 5;
+    barra->width = 5;
+    barra->height = 1;
 
     #if DEBUG == 1
-            printf("posicao = (%d, %d)\n", barra->i, barra->j);
-            system("pause");
-     #endif
-
+        printf("posI: %d  posJ: %d \n", barra->i, barra->j);
+        system("pause");
+    #endif
 }
 
-void rotacao(Bloco *bloco){
-   if(bloco->orientacao==ORIENTACAO_RIGHT)
+/*
+    Rotaciona blocos do jogo
+*/
+void rotate(Bloco *bloco){
+    if(bloco->orientacao==ORIENTACAO_RIGHT)
         bloco->orientacao = ORIENTACAO_UP;
     else
         bloco->orientacao++;
@@ -98,16 +107,29 @@ void rotacao(Bloco *bloco){
     //resolvendo bug dos cantos
     if(bloco->j < (bloco->width/2))
         bloco->j = bloco->width/2;
-    else if(bloco->j > COLUMNS - (bloco->width/2) - 2)
-        bloco->j = COLUMNS - (bloco->width/2) - 2;
+    else if(bloco->j > COLUMNS - (bloco->width/2) - 1)
+        bloco->j = COLUMNS - (bloco->width/2) - 1;
 
 }
 
-int collisao(char matrix[ROWS][COLUMNS], Bloco barra){
-int retorno = 0;
+/*
+    Verifica a colisão de blocos
+*/
+int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra){
+    int retorno = 0;
 
     //colisão com a base
-    if((barra.i + barra.height/2) >= (ROWS-1))
+    if((barra.i + 1) >= ROWS)
+        retorno = 1;
+
+    //colisão entre peças
+    if(matrix[barra.i + 1][barra.j] != EMPTY)
+        retorno = 1;
+
+    int t2 = barra.width / 2;
+    if(matrix[barra.i+1][barra.j + t2] != EMPTY )
+        retorno = 1;
+    if(matrix[barra.i+1][barra.j - t2] != EMPTY )
         retorno = 1;
 
     return retorno;
